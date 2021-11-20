@@ -1,0 +1,12 @@
+{
+  "name": "staking",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "Gleb Chistyakov <gleb4ist@gmail.com>",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.3.2",
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "chai": "^4.3.4"
+  }
+}
