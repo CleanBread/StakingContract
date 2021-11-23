@@ -5,6 +5,7 @@ const { BN, time, expectEvent } = require('@openzeppelin/test-helpers');
 const { expect } = require('chai');
 
 contract('Staking', ([alice, bob]) => {
+  const ZERO = new BN(0);
   const ONE = new BN('1000000000000000000');
   const TWO = new BN('2000000000000000000');
   const DAY = new BN(86400);
@@ -80,11 +81,10 @@ contract('Staking', ([alice, bob]) => {
       });
       const unstake = await stakingInstance.unstake(ONE, { from: bob });
 
-      expectEvent(unstake, 'Unstake', {
+      expectEvent(unstake, 'UnstakeEvent', {
+        to: bob,
         value: '500000000000000000',
-      });
-      expectEvent(unstake, 'UnstakeCommision', {
-        value: '500000000000000000',
+        commision: '500000000000000000',
       });
 
       const balanceERC20 = await ERC20RewardsInstance.balanceOf(bob, {
@@ -101,13 +101,11 @@ contract('Staking', ([alice, bob]) => {
       time.increase(FOURTY_FIVE_DAYS);
       const unstake = await stakingInstance.unstake(ONE, { from: bob });
 
-      expectEvent(unstake, 'Unstake', {
+      expectEvent(unstake, 'UnstakeEvent', {
+        to: bob,
         value: '750000000000000000',
+        commision: '250000000000000000',
       });
-      expectEvent(unstake, 'UnstakeCommision', {
-        value: '250000000000000000',
-      });
-
       const balanceERC20 = await ERC20RewardsInstance.balanceOf(bob, {
         from: bob,
       });
@@ -122,8 +120,10 @@ contract('Staking', ([alice, bob]) => {
       time.increase(TWO_MONTH);
       const unstake = await stakingInstance.unstake(ONE, { from: bob });
 
-      expectEvent(unstake, 'Unstake', {
+      expectEvent(unstake, 'UnstakeEvent', {
+        to: bob,
         value: ONE,
+        commision: ZERO,
       });
 
       const balanceERC20 = await ERC20RewardsInstance.balanceOf(bob, {
