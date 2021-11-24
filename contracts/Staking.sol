@@ -63,7 +63,7 @@ contract Staking is Ownable {
         emit StakeEvent(msg.sender, msg.value);
     }
 
-    function unstake(uint256 _value) external payable {
+    function unstake(uint256 _value) external {
         require(
             _value % MIN_STAKE == 0,
             "Value is not a multiple of 0.1 ether"
